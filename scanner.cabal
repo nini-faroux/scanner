@@ -1,0 +1,88 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 8cf148e5df37f0cd570e5f5d130907d4b584f4da7fcd2f324581bb222b5c2ee3
+
+name:           scanner
+version:        0.1.0.0
+description:    Please see the README on Github at <https://github.com/githubuser/scanner#readme>
+homepage:       https://github.com/githubuser/scanner#readme
+bug-reports:    https://github.com/githubuser/scanner/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2020 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/scanner
+
+library
+  exposed-modules:
+      Dns
+      Import
+      Run
+      Types
+      Util
+  other-modules:
+      Paths_scanner
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      base >=4.11 && <10
+    , binary
+    , bytestring
+    , cereal
+    , dns
+    , iproute
+    , rio >=0.1.12.0
+  default-language: Haskell2010
+
+executable scanner-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_scanner
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.11 && <10
+    , binary
+    , bytestring
+    , cereal
+    , dns
+    , iproute
+    , optparse-simple
+    , rio >=0.1.12.0
+    , scanner
+  default-language: Haskell2010
+
+test-suite scanner-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      UtilSpec
+      Paths_scanner
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.11 && <10
+    , binary
+    , bytestring
+    , cereal
+    , dns
+    , hspec
+    , iproute
+    , rio >=0.1.12.0
+    , scanner
+  default-language: Haskell2010

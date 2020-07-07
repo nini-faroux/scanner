@@ -1,0 +1,5 @@
+*~
+.DS_Store
+*.swp
+tarballs/
+.stack-work/
