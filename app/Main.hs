@@ -15,7 +15,7 @@ main = do
     $(simpleVersion Paths_scanner.version)
     "Hostname"
     "Scanner"
-    (Options <$> hostTarget <*> portTarget <*> verbose)
+    optionsParser
     empty
   lo <- logOptionsHandle stderr (optionsVerbose options)
   pc <- mkDefaultProcessContext
@@ -26,6 +26,9 @@ main = do
           , appOptions = options
           }
      in runRIO app run
+
+optionsParser :: Parser Options
+optionsParser = Options <$> hostTarget <*> portTarget <*> verbose
 
 hostTarget :: Parser BS8.ByteString
 hostTarget = argument str (metavar "<HOSTNAME>")
