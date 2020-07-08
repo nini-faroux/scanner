@@ -5,7 +5,6 @@ module Scanner where
 
 import Import
 
-import    Network.Socket
 import    GHC.IO.Exception (IOException(..))
 import    Foreign.C.Error (Errno(..), eCONNREFUSED)
 
