@@ -22,3 +22,5 @@ instance HasLogFunc App where
   logFuncL = lens appLogFunc (\x y -> x { appLogFunc = y })
 instance HasProcessContext App where
   processContextL = lens appProcessContext (\x y -> x { appProcessContext = y })
+
+type IPAddress = (Word8, Word8, Word8, Word8)
