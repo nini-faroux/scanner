@@ -3,7 +3,6 @@
 module Dns where
 
 import Import
-import Network.DNS
 import qualified Data.ByteString.Char8 as BS8
 
 lookupIPv4 :: BS8.ByteString -> IO (Either DNSError [IPv4])
