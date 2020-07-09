@@ -14,7 +14,7 @@ checkPort :: IPAddress -> PortNumber -> IO Bool
 checkPort address port = do
   let socketAddress = SockAddrInet port $ tupleToHostAddress address
   bracket (socket AF_INET Stream 6) close' $ \socket' -> do
-       response <- timeout 1200000 $ try $ connect socket' socketAddress
+       response <- timeout 500000 $ try $ connect socket' socketAddress
        case response of
            Nothing -> return False
            Just (Right ()) -> return True

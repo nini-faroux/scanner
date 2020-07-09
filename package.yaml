@@ -28,6 +28,7 @@ dependencies:
 - cereal
 - network
 - attoparsec
+- optparse-simple
 
 ghc-options:
 - -Wall
