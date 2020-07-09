@@ -13,7 +13,7 @@ main :: IO ()
 main = do
   (options, ()) <- simpleOptions
     $(simpleVersion Paths_scanner.version)
-    "Hostname"
+    "Scanner"
     "Scanner"
     optionsParser
     empty

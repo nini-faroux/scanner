@@ -27,6 +27,7 @@ dependencies:
 - iproute
 - cereal
 - network
+- attoparsec
 
 ghc-options:
 - -Wall
