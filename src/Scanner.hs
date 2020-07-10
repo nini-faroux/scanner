@@ -7,15 +7,19 @@ import Import
 import GHC.IO.Exception (IOException(..))
 import Foreign.C.Error (Errno(..), eCONNREFUSED)
 
-getOpenPorts :: IPAddress -> [PortNumber] -> IO [PortNumber]
-getOpenPorts address ps = 
-  foldM (\acc p -> checkPort address p >>= \s -> if s then return (p : acc) else return acc) [] ps >>= \ps' -> return $ reverse ps'
+getPortStatusConcurrently :: IPAddress -> [PortNumber] -> IO [(PortNumber, PortStatus)]
+getPortStatusConcurrently address = 
+  mapConcurrently (\p -> checkPortOpen address p >>= \s -> if s then return (p, Open) else return (p, Closed))
 
-checkPort :: IPAddress -> PortNumber -> IO Bool
-checkPort address port = do
+getPortStatusSync :: IPAddress -> [PortNumber] -> IO [PortNumber]
+getPortStatusSync address ps = 
+  foldM (\acc p -> checkPortOpen address p >>= \s -> if s then return (p : acc) else return acc) [] ps >>= \ps' -> return $ reverse ps'
+
+checkPortOpen :: IPAddress -> PortNumber -> IO Bool
+checkPortOpen address port = do
   let socketAddress = SockAddrInet port $ tupleToHostAddress address
   bracket (socket AF_INET Stream 6) close' $ \socket' -> do
-       response <- timeout 500000 $ try $ connect socket' socketAddress
+       response <-  connectSocket socket' socketAddress 500000
        case response of
            Nothing -> return False
            Just (Right ()) -> return True
@@ -23,3 +27,6 @@ checkPort address port = do
              if (Errno <$> ioe_errno err) == Just eCONNREFUSED
                then return False
                else throwIO err
+
+connectSocket :: Exception e => Socket -> SockAddr -> Int -> IO (Maybe (Either e ()))
+connectSocket socket' sockAddr delay = timeout delay $ try $ connect socket' sockAddr

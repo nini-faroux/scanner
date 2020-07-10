@@ -20,9 +20,9 @@ run = do
         let ip = ipToAddress ip'
         if length ports == 1
           then do 
-            isOpen <- liftIO $ checkPort ip (L'.head ports)
+            isOpen <- liftIO $ checkPortOpen ip (L'.head ports)
             if isOpen then logInfo $ "Port " <> displayShow ports <> " is open"
                       else logInfo $ "Port " <> displayShow ports <> " is closed"
         else do
-          statuses <- liftIO $ getOpenPorts ip [L'.head ports..L'.last ports]
+          statuses <- liftIO $ getPortStatusConcurrently ip [L'.head ports..L'.last ports]
           logInfo $ displayShow statuses

@@ -24,4 +24,9 @@ instance HasLogFunc App where
 instance HasProcessContext App where
   processContextL = lens appProcessContext (\x y -> x { appProcessContext = y })
 
+data PortStatus =
+    Open
+  | Closed
+  deriving (Eq, Show)
+
 type IPAddress = (Word8, Word8, Word8, Word8)
