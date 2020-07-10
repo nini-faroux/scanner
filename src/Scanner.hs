@@ -8,7 +8,8 @@ import GHC.IO.Exception (IOException(..))
 import Foreign.C.Error (Errno(..), eCONNREFUSED)
 
 getOpenPorts :: IPAddress -> [PortNumber] -> IO [PortNumber]
-getOpenPorts address = foldM (\acc p -> checkPort address p >>= \s -> if s then return (p : acc) else return acc) []
+getOpenPorts address ps = 
+  foldM (\acc p -> checkPort address p >>= \s -> if s then return (p : acc) else return acc) [] ps >>= \ps' -> return $ reverse ps'
 
 checkPort :: IPAddress -> PortNumber -> IO Bool
 checkPort address port = do
