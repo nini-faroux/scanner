@@ -17,9 +17,8 @@ getPortStatusSync address ps =
 
 checkPortOpen :: IPAddress -> PortNumber -> IO Bool
 checkPortOpen address port = do
-  let socketAddress = SockAddrInet port $ tupleToHostAddress address
   bracket (socket AF_INET Stream 6) close' $ \socket' -> do
-       response <-  connectSocket socket' socketAddress 500000
+       response <-  connectSocket socket' address port 500000
        case response of
            Nothing -> return False
            Just (Right ()) -> return True
@@ -28,5 +27,7 @@ checkPortOpen address port = do
                then return False
                else throwIO err
 
-connectSocket :: Exception e => Socket -> SockAddr -> Int -> IO (Maybe (Either e ()))
-connectSocket socket' sockAddr delay = timeout delay $ try $ connect socket' sockAddr
+connectSocket :: Exception e => Socket -> IPAddress -> PortNumber -> Int -> IO (Maybe (Either e ()))
+connectSocket socket' address port delay = timeout delay $ try $ connect socket' sockAddr
+  where
+    sockAddr = SockAddrInet port $ tupleToHostAddress address
