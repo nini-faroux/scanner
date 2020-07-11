@@ -9,7 +9,7 @@ import qualified Data.ByteString.Char8 as BS8
 -- | Command line arguments
 data Options = Options
   { targetHost :: !BS8.ByteString
-  , targetPort :: [PortNumber]
+  , targetPort :: NonEmpty PortNumber
   , optionsVerbose :: !Bool
   }
 

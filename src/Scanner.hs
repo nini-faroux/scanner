@@ -7,7 +7,7 @@ import Import
 import GHC.IO.Exception (IOException(..))
 import Foreign.C.Error (Errno(..), eCONNREFUSED)
 
-getPortStatusConcurrently :: IPAddress -> [PortNumber] -> IO [(PortNumber, PortStatus)]
+getPortStatusConcurrently :: IPAddress -> NonEmpty PortNumber -> IO (NonEmpty (PortNumber, PortStatus))
 getPortStatusConcurrently address = 
   mapConcurrently (\p -> checkPortOpen address p >>= \s -> if s then return (p, Open) else return (p, Closed))
 

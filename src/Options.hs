@@ -14,13 +14,13 @@ optionsParser = Options <$> hostTarget <*> portTarget <*> verbose
 hostTarget :: Parser BS8.ByteString
 hostTarget = argument str (metavar "<HOSTNAME>")
 
-portTarget :: Parser [PortNumber]
+portTarget :: Parser (NonEmpty PortNumber)
 portTarget = option portReader (short 'p' <> long "port" <> help "Check single port or range of ports")
 
-portReader :: ReadM [PortNumber]
+portReader :: ReadM (NonEmpty PortNumber)
 portReader = eitherReader (P.parseOnly parsePortArgs . BS8.pack)
 
-parsePortArgs :: P.Parser [PortNumber]
+parsePortArgs :: P.Parser (NonEmpty PortNumber)
 parsePortArgs = do
   s <- AC.decimal
   n <- P.peekWord8
@@ -41,19 +41,19 @@ parsePortArgs = do
                     Right ps -> return ps
             else failPort InvalidPortFormat
 
-failPort :: PortError -> P.Parser [PortNumber]
+failPort :: PortError -> P.Parser (NonEmpty PortNumber)
 failPort pe = fail $ show pe
 
-singlePortArg :: Integer -> Either PortError [PortNumber]
+singlePortArg :: Integer -> Either PortError (NonEmpty PortNumber)
 singlePortArg n
   | n > 65535 = Left InvalidPortNumber
-  | otherwise = Right [fromIntegral n]
+  | otherwise = Right $ fromIntegral n :| []
 
-multipleArgsPort :: Integer -> Integer -> Either PortError [PortNumber]
+multipleArgsPort :: Integer -> Integer -> Either PortError (NonEmpty PortNumber)
 multipleArgsPort s e
   | s > e = Left InvalidPortRange
   | e > 65535 = Left InvalidPortNumber
-  | otherwise = Right [fromIntegral s, fromIntegral e]
+  | otherwise = Right $ fromIntegral s :| [fromIntegral e]
 
 verbose :: Parser Bool
 verbose = switch (short 'v' <> long "verbose" <> help "Verbose output")

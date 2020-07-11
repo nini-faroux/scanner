@@ -3,9 +3,9 @@
 module Run (run) where
 
 import Import
-import qualified RIO.List.Partial as L'
 import Dns
 import Scanner
+import qualified Data.List.NonEmpty as L
 
 run :: RIO App ()
 run = do
@@ -20,9 +20,9 @@ run = do
         let ip = ipToAddress ip'
         if length ports == 1
           then do 
-            isOpen <- liftIO $ checkPortOpen ip (L'.head ports)
+            isOpen <- liftIO $ checkPortOpen ip (L.head ports)
             if isOpen then logInfo $ "Port " <> displayShow ports <> " is open"
                       else logInfo $ "Port " <> displayShow ports <> " is closed"
         else do
-          statuses <- liftIO $ getPortStatusConcurrently ip [L'.head ports..L'.last ports]
+          statuses <- liftIO $ getPortStatusConcurrently ip (L.fromList [L.head ports..L.last ports])
           logInfo $ displayShow statuses
