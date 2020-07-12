@@ -14,8 +14,8 @@ getOpenPortsConcurrently address ps = do
   return . L.fromList $ L.filter (\(_, s) -> s == Open) ps'
 
 getPortStatusConcurrently :: IPAddress -> NonEmpty PortNumber -> IO (NonEmpty (PortNumber, PortStatus))
-getPortStatusConcurrently address = 
-  mapConcurrently (\p -> checkPortOpen address p >>= \s -> if s then return (p, Open) else return (p, Closed))
+getPortStatusConcurrently address = do
+    pooledMapConcurrentlyN 100 (\p -> checkPortOpen address p >>= \s -> if s then return (p, Open) else return (p, Closed))
 
 getPortStatusSync :: IPAddress -> [PortNumber] -> IO [PortNumber]
 getPortStatusSync address ps = 
@@ -24,7 +24,7 @@ getPortStatusSync address ps =
 checkPortOpen :: IPAddress -> PortNumber -> IO Bool
 checkPortOpen address port = do
   bracket (socket AF_INET Stream 6) close' $ \socket' -> do
-       response <-  connectSocket socket' address port 500000
+       response <- connectSocket socket' address port 500000
        case response of
            Nothing -> return False
            Just (Right ()) -> return True
