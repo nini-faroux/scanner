@@ -25,35 +25,35 @@ parsePortArgs = do
   s <- AC.decimal
   n <- P.peekWord8
   if isNothing n
-    then case singlePortArg s of
-            Left err -> failPort err
-            Right ps -> return ps
+    then runCheckPortArgs s s
     else do
       d <- AC.take 1
       if d /= "-"
         then failPort InvalidPortFormat
-        else do
-          e <- AC.decimal
-          n' <- P.peekWord8
-          if isNothing n'
-            then case multipleArgsPort s e of
-                    Left err -> failPort err
-                    Right ps -> return ps
-            else failPort InvalidPortFormat
+        else portArgSequence s
+
+portArgSequence :: Integer -> P.Parser (NonEmpty PortNumber)
+portArgSequence s = do
+  e <- AC.decimal
+  n' <- P.peekWord8
+  if isNothing n'
+    then runCheckPortArgs s e
+    else failPort InvalidPortFormat
+
+runCheckPortArgs :: Integer -> Integer -> P.Parser (NonEmpty PortNumber)
+runCheckPortArgs s e = 
+  case checkPortArgs s e of
+      Left err -> failPort err
+      Right ps -> return ps
+
+checkPortArgs :: Integer -> Integer -> Either PortError (NonEmpty PortNumber)
+checkPortArgs s e
+  | s > e = Left InvalidPortRange
+  | s > 65535 || e > 65535 = Left InvalidPortNumber
+  | otherwise = Right $ fromIntegral s :| [fromIntegral e]
 
 failPort :: PortError -> P.Parser (NonEmpty PortNumber)
 failPort pe = fail $ show pe
-
-singlePortArg :: Integer -> Either PortError (NonEmpty PortNumber)
-singlePortArg n
-  | n > 65535 = Left InvalidPortNumber
-  | otherwise = Right $ fromIntegral n :| []
-
-multipleArgsPort :: Integer -> Integer -> Either PortError (NonEmpty PortNumber)
-multipleArgsPort s e
-  | s > e = Left InvalidPortRange
-  | e > 65535 = Left InvalidPortNumber
-  | otherwise = Right $ fromIntegral s :| [fromIntegral e]
 
 verbose :: Parser Bool
 verbose = switch (short 'v' <> long "verbose" <> help "Verbose output")

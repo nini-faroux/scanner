@@ -18,11 +18,5 @@ run = do
       Right ip' -> do 
         logInfo $ "Host: " <> displayShow host <> ", IP: " <> displayShow ip'
         let ip = ipToAddress ip'
-        if length ports == 1
-          then do 
-            isOpen <- liftIO $ checkPortOpen ip (L.head ports)
-            if isOpen then logInfo $ "Port " <> displayShow ports <> " is open"
-                      else logInfo $ "Port " <> displayShow ports <> " is closed"
-        else do
-          statuses <- liftIO $ getPortStatusConcurrently ip (L.fromList [L.head ports..L.last ports])
-          logInfo $ displayShow statuses
+        statuses <- liftIO $ getPortStatusConcurrently ip (L.fromList [L.head ports..L.last ports])
+        logInfo $ displayShow statuses
