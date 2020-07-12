@@ -4,8 +4,14 @@
 module Scanner where
 
 import Import
+import qualified Data.List.NonEmpty as L
 import GHC.IO.Exception (IOException(..))
 import Foreign.C.Error (Errno(..), eCONNREFUSED)
+
+getOpenPortsConcurrently :: IPAddress -> NonEmpty PortNumber -> IO (NonEmpty (PortNumber, PortStatus))
+getOpenPortsConcurrently address ps = do
+  ps' <- getPortStatusConcurrently address ps
+  return . L.fromList $ L.filter (\(_, s) -> s == Open) ps'
 
 getPortStatusConcurrently :: IPAddress -> NonEmpty PortNumber -> IO (NonEmpty (PortNumber, PortStatus))
 getPortStatusConcurrently address = 
