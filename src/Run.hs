@@ -3,6 +3,7 @@
 module Run (run) where
 
 import Import
+import Util
 import Dns
 import Scanner
 import qualified Data.List.NonEmpty as L
