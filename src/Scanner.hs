@@ -17,10 +17,6 @@ getPortStatusConcurrently :: IPAddress -> NonEmpty PortNumber -> IO (NonEmpty (P
 getPortStatusConcurrently address = do
     pooledMapConcurrentlyN 100 (\p -> checkPortOpen address p >>= \s -> if s then return (p, Open) else return (p, Closed))
 
-getPortStatusSync :: IPAddress -> [PortNumber] -> IO [PortNumber]
-getPortStatusSync address ps = 
-  foldM (\acc p -> checkPortOpen address p >>= \s -> if s then return (p : acc) else return acc) [] ps >>= \ps' -> return $ reverse ps'
-
 checkPortOpen :: IPAddress -> PortNumber -> IO Bool
 checkPortOpen address port = do
   bracket (socket AF_INET Stream 6) close' $ \socket' -> do
