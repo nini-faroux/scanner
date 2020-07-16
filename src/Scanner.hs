@@ -4,7 +4,6 @@
 module Scanner where
 
 import Import
-import qualified RIO.List as L
 import GHC.IO.Exception (IOException(..))
 import Foreign.C.Error (Errno(..), eCONNREFUSED)
 
@@ -35,9 +34,4 @@ connectSocket socket' address port delay = timeout delay $ try $ connect socket'
     sockAddr = SockAddrInet port $ tupleToHostAddress address
 
 portListFromRange :: PortNumber -> PortNumber -> [PortNumber]
-portListFromRange start end = take range $ L.unfoldr (\b -> Just (b, b + 1)) start
-  where
-    range 
-      | start == end = 1
-      | otherwise = fromIntegral $ (end - start) + 1
-
+portListFromRange start end = [start..end]
