@@ -4,16 +4,16 @@
 module Scanner where
 
 import Import
-import qualified Data.List.NonEmpty as L
+import qualified RIO.List as L
 import GHC.IO.Exception (IOException(..))
 import Foreign.C.Error (Errno(..), eCONNREFUSED)
 
-getOpenPortsConcurrently :: IPAddress -> NonEmpty PortNumber -> IO (NonEmpty (PortNumber, PortStatus))
+getOpenPortsConcurrently :: IPAddress -> [PortNumber] -> IO [(PortNumber, PortStatus)]
 getOpenPortsConcurrently address ps = do
   ps' <- getPortStatusConcurrently address ps
-  return . L.fromList $ L.filter (\(_, s) -> s == Open) ps'
+  return $ filter (\(_, s) -> s == Open) ps'
 
-getPortStatusConcurrently :: IPAddress -> NonEmpty PortNumber -> IO (NonEmpty (PortNumber, PortStatus))
+getPortStatusConcurrently :: IPAddress -> [PortNumber] -> IO [(PortNumber, PortStatus)]
 getPortStatusConcurrently address = do
     pooledMapConcurrentlyN 100 (\p -> checkPortOpen address p >>= \s -> if s then return (p, Open) else return (p, Closed))
 
@@ -33,3 +33,11 @@ connectSocket :: Exception e => Socket -> IPAddress -> PortNumber -> Int -> IO (
 connectSocket socket' address port delay = timeout delay $ try $ connect socket' sockAddr
   where
     sockAddr = SockAddrInet port $ tupleToHostAddress address
+
+portListFromRange :: PortNumber -> PortNumber -> [PortNumber]
+portListFromRange start end = take range $ L.unfoldr (\b -> Just (b, b + 1)) start
+  where
+    range 
+      | start == end = 1
+      | otherwise = fromIntegral $ (end - start) + 1
+

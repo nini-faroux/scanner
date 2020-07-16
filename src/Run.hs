@@ -6,7 +6,7 @@ import Import
 import Util
 import Dns
 import Scanner
-import qualified Data.List.NonEmpty as L
+import qualified RIO.NonEmpty as NE
 
 run :: RIO App ()
 run = do
@@ -19,5 +19,5 @@ run = do
       Right ip' -> do 
         logInfo $ "Host: " <> displayShow host <> ", IP: " <> displayShow ip'
         let ip = ipToAddress ip'
-        statuses <- liftIO $ getOpenPortsConcurrently ip (L.fromList [L.head ports..L.last ports])
+        statuses <- liftIO $ getOpenPortsConcurrently ip (portListFromRange (NE.head ports) (NE.last ports))
         logInfo $ displayShow statuses
