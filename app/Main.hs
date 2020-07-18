@@ -4,7 +4,7 @@ module Main (main) where
 
 import Run
 import Scanner.Import
-import Scanner.Options.PortParser
+import Scanner.Options.Options
 import qualified Paths_scanner
 import RIO.Process
 
