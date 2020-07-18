@@ -2,9 +2,9 @@
 {-# LANGUAGE TemplateHaskell #-}
 module Main (main) where
 
-import Import
 import Run
-import Options
+import Scanner.Import
+import Scanner.Options.PortParser
 import qualified Paths_scanner
 import RIO.Process
 

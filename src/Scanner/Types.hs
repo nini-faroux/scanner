@@ -1,5 +1,5 @@
 {-# LANGUAGE NoImplicitPrelude #-}
-module Types where
+module Scanner.Types where
 
 import RIO
 import RIO.Process

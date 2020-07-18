@@ -1,9 +1,9 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Scanner where
+module Scanner.PortScanner.PortScanner where
 
-import Import
+import Scanner.Import
 import GHC.IO.Exception (IOException(..))
 import Foreign.C.Error (Errno(..), eCONNREFUSED)
 

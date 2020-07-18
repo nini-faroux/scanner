@@ -1,9 +1,9 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Options where
+module Scanner.Options.PortParser where
 
-import Import
+import Scanner.Import
 import qualified Data.ByteString.Char8 as BS8
 import qualified Data.Attoparsec.ByteString as P
 import qualified Data.Attoparsec.ByteString.Char8 as AC

@@ -1,8 +1,8 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 
-module Util where
+module Scanner.Network.Util where
 
-import Import
+import Scanner.Import
 
 ipToAddress :: [IPv4] -> IPAddress
 ipToAddress = listToTuple . intsToWords . fromIPv4 . head'

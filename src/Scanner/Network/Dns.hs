@@ -1,8 +1,8 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 
-module Dns where
+module Scanner.Network.Dns where
 
-import Import
+import Scanner.Import
 import qualified RIO.ByteString as BS
 
 lookupIPv4 :: BS.ByteString -> IO (Either DNSError [IPv4])
