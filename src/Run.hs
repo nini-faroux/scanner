@@ -2,10 +2,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Run (run) where
 
-import Scanner.Import
-import Scanner.Network.Dns
-import Scanner.Network.Util
-import Scanner.PortScanner.PortScanner
+import Import
+import Network.Resolv
+import Network.Util
+import PortScanner.PortScanner
 import qualified RIO.NonEmpty as NE
 
 run :: RIO App ()

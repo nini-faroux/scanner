@@ -1,18 +1,12 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Scanner.Options.PortParser where
+module Options.PortParser where
 
-import Scanner.Import
+import Import
 import qualified Data.ByteString.Char8 as BS8
 import qualified Data.Attoparsec.ByteString as P
 import qualified Data.Attoparsec.ByteString.Char8 as AC
-
-optionsParser :: Parser Options
-optionsParser = Options <$> hostTarget <*> portTarget <*> verbose
-
-hostTarget :: Parser BS8.ByteString
-hostTarget = argument str (metavar "<HOSTNAME>")
 
 portTarget :: Parser (NonEmpty PortNumber)
 portTarget = option portReader (short 'p' <> long "port" <> help "Check single port or range of ports")
@@ -54,6 +48,3 @@ checkPortArgs s e
 
 failPort :: PortError -> P.Parser (NonEmpty PortNumber)
 failPort pe = fail $ show pe
-
-verbose :: Parser Bool
-verbose = switch (short 'v' <> long "verbose" <> help "Verbose output")
