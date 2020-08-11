@@ -1,10 +1,10 @@
-cabal-version: 1.12
+cabal-version: 2.4
 
 -- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8cf148e5df37f0cd570e5f5d130907d4b584f4da7fcd2f324581bb222b5c2ee3
+-- hash: e18d86c929a0d56a03130a5b14ce927b237a99059ca49c05c9cd11e7d936c7f6
 
 name:           scanner
 version:        0.1.0.0
@@ -14,8 +14,6 @@ bug-reports:    https://github.com/githubuser/scanner/issues
 author:         Author name here
 maintainer:     example@example.com
 copyright:      2020 Author name here
-license:        BSD3
-license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
@@ -25,25 +23,38 @@ source-repository head
   type: git
   location: https://github.com/githubuser/scanner
 
+common common-stan
+  ghc-options: -fwrite-ide-info
+               -hiedir=.hie
+
 library
+  import: common-stan
   exposed-modules:
-      Dns
+      Banner.Http
       Import
+      Network.Resolv
+      Network.Util
+      Options.Options
+      Options.PortParser
+      PortScanner.PortScanner
       Run
       Types
-      Util
   other-modules:
       Paths_scanner
   hs-source-dirs:
       src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints
   build-depends:
-      base >=4.11 && <10
-    , binary
+      attoparsec
+    , base >=4.11 && <10
     , bytestring
     , cereal
     , dns
+    , http-client
+    , http-conduit
     , iproute
+    , network
+    , optparse-simple
     , rio >=0.1.12.0
   default-language: Haskell2010
 
@@ -55,12 +66,15 @@ executable scanner-exe
       app
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.11 && <10
-    , binary
+      attoparsec
+    , base >=4.11 && <10
     , bytestring
     , cereal
     , dns
+    , http-client
+    , http-conduit
     , iproute
+    , network
     , optparse-simple
     , rio >=0.1.12.0
     , scanner
@@ -76,13 +90,17 @@ test-suite scanner-test
       test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.11 && <10
-    , binary
+      attoparsec
+    , base >=4.11 && <10
     , bytestring
     , cereal
     , dns
     , hspec
+    , http-client
+    , http-conduit
     , iproute
+    , network
+    , optparse-simple
     , rio >=0.1.12.0
     , scanner
   default-language: Haskell2010
