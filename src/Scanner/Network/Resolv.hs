@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 
-module Network.Resolv where
+module Scanner.Network.Resolv where
 
 import Import
 import qualified RIO.ByteString as BS

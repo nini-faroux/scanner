@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 
-module Network.Util where
+module Scanner.Network.Util where
 
 import Import
 

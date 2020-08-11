@@ -4,7 +4,7 @@ cabal-version: 2.4
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9512367d31c94b25bf42e51994c4962b874e6db2bbb0411c4a45d1f1f63217fe
+-- hash: 0caed42d5b58161fc3c25e9c20111d9b3185783336e3fe63ec52c68e872b5c2c
 
 name:           scanner
 version:        0.1.0.0
@@ -26,16 +26,15 @@ source-repository head
 
 library
   exposed-modules:
-      Banner.Http
       Import
-      Network.Resolv
-      Network.Util
-      Options.Options
-      Options.PortParser
-      PortScanner.PortScanner
       Run
+      Scanner.Banner.Http
+      Scanner.Network.Resolv
+      Scanner.Network.Util
       Scanner.Options.Options
-      Types
+      Scanner.Options.PortParser
+      Scanner.PortScanner.PortScanner
+      Scanner.Types
   other-modules:
       Paths_scanner
   hs-source-dirs:

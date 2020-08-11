@@ -1,7 +1,7 @@
 module Scanner.Options.Options where
 
 import Import
-import Options.PortParser
+import Scanner.Options.PortParser
 import qualified RIO.ByteString as BS
 
 optionsParser :: Parser Options

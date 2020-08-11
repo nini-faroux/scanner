@@ -3,9 +3,9 @@
 module Run (run) where
 
 import Import
-import Network.Resolv
-import Network.Util
-import PortScanner.PortScanner
+import Scanner.Network.Resolv
+import Scanner.Network.Util
+import Scanner.PortScanner.PortScanner
 import qualified RIO.NonEmpty as NE
 
 run :: RIO App ()

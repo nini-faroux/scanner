@@ -1,7 +1,7 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module PortScanner.PortScanner where
+module Scanner.PortScanner.PortScanner where
 
 import Import
 import GHC.IO.Exception (IOException(..))

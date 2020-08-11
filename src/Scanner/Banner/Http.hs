@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Banner.Http where
+module Scanner.Banner.Http where
 
 import Import
 import Network.HTTP.Client
