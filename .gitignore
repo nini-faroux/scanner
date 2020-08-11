@@ -1,5 +1,9 @@
 *~
-.DS_Store
 *.swp
 tarballs/
 .stack-work/
+stack.yaml.lock
+.DS_Store
+dist
+dist-*
+.hie/
