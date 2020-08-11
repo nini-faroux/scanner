@@ -1,0 +1,38 @@
+- &common-options
+  dependencies:
+    - name: base
+    - name: rio
+      version: "^>= 0.1.12.0"
+    - name: dns
+    - name: bytestring
+    - name: iproute
+    - name: cereal
+    - name: network
+    - name: attoparsec
+    - name: optparse-simple
+    - name: http-client
+    - name: http-conduit
+
+  ghc-options: 
+    - -fwrite-ide-info
+    - -hiedir=.hie
+    - -Wall
+    - -Wcompat
+    - -Widentities
+    - -Wincomplete-record-updates
+    - -Wincomplete-uni-patterns
+    - -Wpartial-fields
+    - -Wredundant-constraints
+
+- &common-tests
+  <<: *common-options
+
+  source-dirs: test
+  dependencies: 
+    - name: scanner
+    - name: hpack
+
+  ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N

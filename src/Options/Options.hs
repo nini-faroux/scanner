@@ -1,4 +1,4 @@
-module Scanner.Options.Options where
+module Options.Options where
 
 import Import
 import Options.PortParser
