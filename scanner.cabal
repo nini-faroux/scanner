@@ -4,16 +4,17 @@ cabal-version: 2.4
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e18d86c929a0d56a03130a5b14ce927b237a99059ca49c05c9cd11e7d936c7f6
+-- hash: 4fcb5b7192cc29b30140b1327d576b00eaacebd96ef2ffcc9ed83f213f66d891
 
 name:           scanner
 version:        0.1.0.0
-description:    Please see the README on Github at <https://github.com/githubuser/scanner#readme>
-homepage:       https://github.com/githubuser/scanner#readme
-bug-reports:    https://github.com/githubuser/scanner/issues
-author:         Author name here
+homepage:       https://github.com/nini-faroux/scanner#readme
+bug-reports:    https://github.com/nini-faroux/scanner/issues
+author:         nini
 maintainer:     example@example.com
 copyright:      2020 Author name here
+license:        MPL-2.0
+license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
@@ -21,14 +22,9 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/scanner
-
-common common-stan
-  ghc-options: -fwrite-ide-info
-               -hiedir=.hie
+  location: https://github.com/nini-faroux/scanner
 
 library
-  import: common-stan
   exposed-modules:
       Banner.Http
       Import
@@ -43,10 +39,10 @@ library
       Paths_scanner
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints
+  ghc-options: -fwrite-ide-info -hiedir=.hie -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints
   build-depends:
       attoparsec
-    , base >=4.11 && <10
+    , base
     , bytestring
     , cereal
     , dns
@@ -55,7 +51,7 @@ library
     , iproute
     , network
     , optparse-simple
-    , rio >=0.1.12.0
+    , rio >=0.1.12.0 && <0.2
   default-language: Haskell2010
 
 executable scanner-exe
@@ -64,10 +60,10 @@ executable scanner-exe
       Paths_scanner
   hs-source-dirs:
       app
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -fwrite-ide-info -hiedir=.hie -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       attoparsec
-    , base >=4.11 && <10
+    , base
     , bytestring
     , cereal
     , dns
@@ -76,7 +72,7 @@ executable scanner-exe
     , iproute
     , network
     , optparse-simple
-    , rio >=0.1.12.0
+    , rio >=0.1.12.0 && <0.2
     , scanner
   default-language: Haskell2010
 
@@ -88,19 +84,19 @@ test-suite scanner-test
       Paths_scanner
   hs-source-dirs:
       test
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -fwrite-ide-info -hiedir=.hie -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       attoparsec
-    , base >=4.11 && <10
+    , base
     , bytestring
     , cereal
     , dns
-    , hspec
+    , hpack
     , http-client
     , http-conduit
     , iproute
     , network
     , optparse-simple
-    , rio >=0.1.12.0
+    , rio >=0.1.12.0 && <0.2
     , scanner
   default-language: Haskell2010
