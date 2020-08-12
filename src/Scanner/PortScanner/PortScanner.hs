@@ -31,7 +31,8 @@ checkPortOpen address port = do
 connectSocket :: Exception e => Socket -> IPAddress -> PortNumber -> Int -> IO (Maybe (Either e ()))
 connectSocket socket' address port delay = timeout delay $ try $ connect socket' sockAddr
   where
-    sockAddr = SockAddrInet port $ tupleToHostAddress address
+    sockAddr = SockAddrInet port $ tupleToHostAddress (addrTup address)
+    addrTup (IPAddress a b c d) = (a, b, c, d)
 
 portListFromRange :: PortNumber -> PortNumber -> [PortNumber]
 portListFromRange start end = [start..end]

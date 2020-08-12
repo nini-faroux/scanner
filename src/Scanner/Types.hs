@@ -9,7 +9,7 @@ import qualified Data.ByteString.Char8 as BS8
 -- | Command line arguments
 data Options = Options
   { targetHost :: !BS8.ByteString
-  , targetPort :: NonEmpty PortNumber
+  , targetPort :: !(NonEmpty PortNumber)
   , optionsVerbose :: !Bool
   }
 
@@ -38,4 +38,4 @@ data PortStatus =
   | Closed
   deriving (Eq, Show)
 
-type IPAddress = (Word8, Word8, Word8, Word8)
+data IPAddress = IPAddress !Word8 !Word8 !Word8 !Word8
