@@ -4,7 +4,7 @@
 module Scanner.Options.PortParser where
 
 import Import
-import qualified Data.ByteString.Char8 as BS8
+import qualified RIO.Text as T
 import qualified Data.Attoparsec.ByteString as P
 import qualified Data.Attoparsec.ByteString.Char8 as AC
 
@@ -12,7 +12,7 @@ portTarget :: Parser (NonEmpty PortNumber)
 portTarget = option portReader (short 'p' <> long "port" <> help "Check single port or range of ports")
 
 portReader :: ReadM (NonEmpty PortNumber)
-portReader = eitherReader (P.parseOnly parsePortArgs . BS8.pack)
+portReader = eitherReader (P.parseOnly parsePortArgs . T.encodeUtf8 . T.pack)
 
 parsePortArgs :: P.Parser (NonEmpty PortNumber)
 parsePortArgs = do
